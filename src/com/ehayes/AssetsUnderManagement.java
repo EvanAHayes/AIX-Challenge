@@ -23,11 +23,11 @@ public class AssetsUnderManagement {
                     iteration++;
                     continue;
                 }
-                //split the string regular expression to ignore "" and , inside of ""
+                //split the string regular expression to ignore "" and , inside of "" the negative is to apply regex as many time as possible
                 String[] columns = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 //CALCULATE PRICE OF THE STOCK
-                String price = PriceOfTheStock(columns[2], columns[3]);
+                String firstNetAmount = PriceOfTheStock(columns[2], columns[3]);
 
                 //find the advisor
                 if (output2.containsKey(columns[6])) {
@@ -35,13 +35,13 @@ public class AssetsUnderManagement {
                     //get value Net amount that advisor already has
                     String num = output2.get(columns[6]);
                     //run method to add net amount to the new entry
-                    String newNetAmount = NetAmount(columns[1], price, num);
+                    String newNetAmount = NetAmount(columns[1], firstNetAmount, num);
                     //put new net amount inside the map with that advisor
                     output2.put(columns[6], newNetAmount);
 
                 } else {
                     //put values into map if it is a new advisor
-                    output2.put(columns[6], price);
+                    output2.put(columns[6], firstNetAmount);
                 }
             }
 
